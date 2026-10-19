@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Contact, Footer, Hero, Nav, Partnership, Process, Services, Standards, Team, Ticker } from "@/components/site/Sections";
+import { Closing, Footer, Hero, Nav, Partnership, Process, ProductFrame, Services, Statement, TeamStandards } from "@/components/site/Sections";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,13 +36,13 @@ function Index() {
       <Nav />
       <main>
         <Hero />
-        <Ticker />
+        <Statement />
+        <ProductFrame />
         <Services />
         <Process />
-        <Team />
-        <Standards />
+        <TeamStandards />
         <Partnership />
-        <Contact />
+        <Closing />
       </main>
       <Footer />
     </>
