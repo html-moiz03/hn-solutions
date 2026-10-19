@@ -2,169 +2,145 @@
 @source "../src";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
-  --radius-sm: calc(var(--radius) - 2px);
-  --radius-md: var(--radius);
-  --radius-lg: var(--radius);
-  --font-display: "Archivo", system-ui, sans-serif;
-  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--foreground);
-  --color-popover: var(--card);
-  --color-popover-foreground: var(--foreground);
-  --color-primary: var(--signal);
-  --color-primary-foreground: var(--signal-foreground);
-  --color-secondary: var(--card);
-  --color-secondary-foreground: var(--foreground);
-  --color-muted: var(--background);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--card);
-  --color-accent-foreground: var(--foreground);
-  --color-destructive: var(--signal);
-  --color-destructive-foreground: var(--signal-foreground);
-  --color-border: var(--border);
-  --color-input: var(--border);
-  --color-ring: var(--signal);
-  --color-signal: var(--signal);
-  --color-signal-foreground: var(--signal-foreground);
-  --color-ok: var(--ok);
-  --color-board: var(--board);
-  --color-board-foreground: var(--board-foreground);
-  --color-board-line: var(--board-line);
-  --color-board-muted: var(--board-muted);
-  --color-lamp-busy: var(--lamp-busy);
-  --color-lamp-ok: var(--lamp-ok);
-  --color-lamp-idle: var(--lamp-idle);
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --font-display: "Inter Tight", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", monospace;
+  --color-background: var(--white);
+  --color-foreground: var(--ink);
+  --color-card: var(--white);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--white);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--black);
+  --color-primary-foreground: var(--white);
+  --color-secondary: var(--beige);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--grey);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--beige);
+  --color-accent-foreground: var(--ink);
+  --color-destructive: var(--black);
+  --color-destructive-foreground: var(--white);
+  --color-border: var(--line);
+  --color-input: var(--line);
+  --color-ring: var(--black);
+  --color-black: var(--black);
+  --color-white: var(--white);
+  --color-ink: var(--ink);
+  --color-beige: var(--beige);
+  --color-grey: var(--grey);
+  --color-soft: var(--soft);
+  --color-line: var(--line);
 }
 
 :root {
-  --radius: 6px;
-  --background: #f1f4f1;
-  --card: #ffffff;
-  --foreground: #10252a;
-  --muted-foreground: #4f6368;
-  --border: #d3dbd7;
-  --signal: #c2410c;
-  --signal-foreground: #ffffff;
-  --ok: #0f766e;
-  --board: #0e2328;
-  --board-foreground: #e6eeeb;
-  --board-line: #22414a;
-  --board-muted: #93a9a6;
-  --lamp-busy: #ff9a5c;
-  --lamp-ok: #4fd1b5;
-  --lamp-idle: #5b7177;
+  --black: #0b0b0b;
+  --white: #ffffff;
+  --beige: #f5f3ee;
+  --grey: #ececea;
+  --ink: #030712;
+  --muted: #6b7280;
+  --soft: #9ca3af;
+  --line: #e5e7eb;
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a1619;
-    --card: #10242a;
-    --foreground: #e6eeeb;
-    --muted-foreground: #9fb3b1;
-    --border: #1f3a41;
-    --signal: #ff9a5c;
-    --signal-foreground: #0a1619;
-    --ok: #4fd1b5;
-    --board: #0e2328;
-    --board-line: #27474f;
-    color-scheme: dark;
-  }
 }
 
 @layer base {
   * { border-color: var(--color-border); }
   html { -webkit-font-smoothing: antialiased; }
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--white);
+    color: var(--ink);
     font-family: var(--font-sans);
     overflow-x: hidden;
   }
   h1, h2, h3 {
     font-family: var(--font-display);
-    font-stretch: 115%;
-    font-weight: 780;
-    letter-spacing: -0.015em;
+    font-weight: 500;
+    letter-spacing: -0.02em;
     line-height: 1.05;
   }
   :focus-visible {
-    outline: 2px solid var(--signal);
+    outline: 2px solid currentColor;
     outline-offset: 3px;
     border-radius: 2px;
   }
 }
 
 @utility eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--muted-foreground);
+  color: var(--muted);
 }
 
 @utility container-site {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1180px;
   margin-inline: auto;
   padding-inline: 16px;
   @media (min-width: 640px) { padding-inline: 32px; }
 }
 
+@utility section-pad {
+  padding-block: 100px;
+  @media (min-width: 768px) { padding-block: 140px; }
+}
+
 @utility btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  height: 2.75rem;
-  padding-inline: 1.15rem;
-  border-radius: var(--radius);
+  gap: 0.4rem;
+  height: 40px;
+  padding-inline: 1rem;
+  border-radius: 3px;
   font-weight: 500;
-  font-size: 0.95rem;
-  transition: background-color .2s, color .2s, border-color .2s, transform .2s;
+  font-size: 0.875rem;
+  transition: background-color .2s, color .2s, border-color .2s;
 }
-@utility btn-signal {
-  background: var(--signal);
-  color: var(--signal-foreground);
-  &:hover { background: color-mix(in oklab, var(--signal) 88%, var(--foreground)); }
+@utility btn-light {
+  background: var(--white);
+  color: var(--black);
+  &:hover { background: var(--grey); }
+}
+@utility btn-dark {
+  background: var(--black);
+  color: var(--white);
+  &:hover { background: #2a2a2a; }
+}
+@utility btn-ghost-dark {
+  border: 1px solid rgb(255 255 255 / 0.25);
+  color: var(--white);
+  &:hover { background: rgb(255 255 255 / 0.08); }
 }
 @utility btn-outline {
-  border: 1px solid var(--foreground);
-  color: var(--foreground);
-  &:hover { background: var(--foreground); color: var(--background); }
+  border: 1px solid var(--line);
+  color: var(--ink);
+  &:hover { border-color: var(--ink); }
 }
 
-@utility halftone {
-  background-image:
-    radial-gradient(circle at center, color-mix(in oklab, var(--foreground) 22%, transparent) 1px, transparent 1.6px),
-    radial-gradient(circle at center, color-mix(in oklab, var(--signal) 30%, transparent) 1.2px, transparent 2px);
-  background-size: 18px 18px, 36px 36px;
-  background-position: 0 0, 9px 9px;
-  mask-image: radial-gradient(ellipse 70% 60% at 70% 40%, #000 20%, transparent 75%);
-  animation: drift 40s linear infinite;
+@utility hero-fallback {
+  background-color: var(--black);
+  background-image: radial-gradient(ellipse 80% 60% at 70% 30%, rgb(255 255 255 / 0.08), transparent 70%);
 }
 
-@utility marquee-track {
-  animation: marquee 45s linear infinite;
-  &:hover { animation-play-state: paused; }
+@utility ken-burns {
+  animation: kenburns 30s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 @utility lamp-pulse {
   animation: pulse-lamp 1.6s ease-in-out infinite;
 }
 
-@keyframes drift {
-  from { background-position: 0 0, 9px 9px; }
-  to { background-position: 180px 90px, 189px 99px; }
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+@keyframes kenburns {
+  from { transform: scale(1) translateX(0); }
+  to { transform: scale(1.12) translateX(-3%); }
 }
 @keyframes pulse-lamp {
   0%, 100% { opacity: 1; }
