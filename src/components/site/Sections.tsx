@@ -1,6 +1,6 @@
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Menu, X } from "lucide-react";
 import { CONTACT, hero, partnership, services, standards, steps, team } from "@/content/site";
 import { Glyph, Reveal, SectionHead } from "./primitives";
 import { LineBoard } from "./LineBoard";
@@ -38,19 +38,50 @@ function Logo({ dark = false }: { dark?: boolean }) {
 }
 
 export function Nav() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+  const go = (id: string) => { setOpen(false); scrollToId(id); };
   return (
     <header className="sticky top-0 z-40 border-b bg-white">
       <nav className="container-site grid h-16 grid-cols-[1fr_auto] items-center md:grid-cols-[1fr_auto_1fr]" aria-label="Main">
-        <a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0 }); }}><Logo /></a>
+        <a href="#top" onClick={(e) => { e.preventDefault(); setOpen(false); window.scrollTo({ top: 0 }); }}><Logo /></a>
         <div className="hidden items-center gap-7 md:flex">
           {LINKS.map((l) => (
             <AnchorLink key={l.id} id={l.id} className="text-sm text-muted-foreground transition-colors hover:text-ink">{l.label}</AnchorLink>
           ))}
         </div>
-        <div className="flex justify-end">
+        <div className="flex items-center justify-end gap-2">
           <AnchorLink id="partnership" className="btn btn-dark h-9">Contact</AnchorLink>
+          <button
+            type="button"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-[3px] border md:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
         </div>
       </nav>
+      {open && (
+        <div id="mobile-menu" className="absolute inset-x-0 top-full border-b bg-white shadow-[0_20px_40px_-24px_rgb(0_0_0/0.3)] md:hidden">
+          <ul className="container-site py-2">
+            {LINKS.map((l) => (
+              <li key={l.id} className="border-b last:border-b-0">
+                <button type="button" onClick={() => go(l.id)} className="block w-full py-4 text-left font-display text-xl">
+                  {l.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </header>
   );
 }
