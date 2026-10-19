@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Closing, Footer, Hero, Nav, Partnership, Process, ProductFrame, Services, Statement, TeamStandards } from "@/components/site/Sections";
+import { Closing, Experience, Footer, Hero, Nav, Partnership, Process, ProductFrame, Services, Statement, TeamStandards } from "@/components/site/Sections";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "HN Solutions" },
+      { title: "HN Solutions | Outbound sales team for US auto warranty campaigns" },
       { name: "description", content: "Four-person outbound sales team in Pakistan for US auto warranty campaigns. Every sale is QA-reviewed against its recording." },
-      { property: "og:title", content: "HN Solutions" },
-      { property: "og:description", content: "Outbound sales calls, checked before they reach you." },
+      { property: "og:title", content: "HN Solutions | Outbound sales calls, checked before they reach you" },
+      { property: "og:description", content: "A four-person outbound sales team for US auto warranty campaigns. Every sale is reviewed against its recording before it is submitted." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -36,6 +36,7 @@ function Index() {
       <Nav />
       <main>
         <Hero />
+        <Experience />
         <Statement />
         <ProductFrame />
         <Services />

@@ -69,3 +69,11 @@ export const partnership = {
     "A written agreement before we start",
   ],
 };
+
+export const experience = {
+  years: "3+",
+  label: "years of auto warranty sales experience on our team",
+  intro: "Our team has worked auto warranty campaigns with:",
+  companies: ["Drive Smart", "Omega Care", "BeeCovered", "MotoAssure"],
+  note: "Past campaign experience of our team members. Company names are shown as text and do not imply endorsement or partnership.",
+};

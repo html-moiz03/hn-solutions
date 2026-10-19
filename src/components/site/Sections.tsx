@@ -1,7 +1,7 @@
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ChevronRight, Menu, X } from "lucide-react";
-import { CONTACT, hero, partnership, services, standards, steps, team } from "@/content/site";
+import { CONTACT, experience, hero, partnership, services, standards, steps, team } from "@/content/site";
 import { Glyph, Reveal, SectionHead } from "./primitives";
 import { LineBoard } from "./LineBoard";
 
@@ -125,6 +125,30 @@ export function Hero() {
         <ul className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-white/10 pt-6 text-sm text-white/70 md:grid-cols-4">
           {services.map((s) => <li key={s.title}>{s.title}</li>)}
         </ul>
+      </div>
+    </section>
+  );
+}
+
+export function Experience() {
+  return (
+    <section aria-label="Team experience" className="border-b">
+      <div className="container-site grid gap-10 py-14 md:grid-cols-12 md:py-20">
+        <Reveal className="md:col-span-5">
+          <p className="font-display text-7xl font-light tracking-[-0.03em] md:text-8xl">{experience.years}</p>
+          <p className="mt-3 max-w-xs text-sm text-muted-foreground">{experience.label}</p>
+        </Reveal>
+        <Reveal delay={0.05} className="md:col-span-7">
+          <p className="eyebrow">{experience.intro}</p>
+          <ul className="mt-5 grid grid-cols-2 border-t">
+            {experience.companies.map((c) => (
+              <li key={c} className="border-b py-6 pr-4 font-display text-2xl font-medium tracking-[-0.02em] sm:text-3xl">
+                {c}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-xs text-muted-foreground">{experience.note}</p>
+        </Reveal>
       </div>
     </section>
   );
