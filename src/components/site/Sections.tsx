@@ -226,7 +226,7 @@ export function TeamStandards() {
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05} className="border-b border-black/10 py-8 sm:pr-8 lg:border-b-0 lg:border-l lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
               <li>
-                <h3 className="text-3xl font-light">{m.name}</h3>
+                <h3 className="text-2xl font-light sm:text-[1.6rem]">{m.name}</h3>
                 <p className="eyebrow mt-3">{m.role}</p>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{m.body}</p>
               </li>

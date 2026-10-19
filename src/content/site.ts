@@ -40,10 +40,10 @@ export const steps = [
 ];
 
 export const team = [
-  { name: "Malik", role: "Partner · Operations", body: "Runs the dialer, CRM, merchant setup, sales records and call QA." },
-  { name: "Zain", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
-  { name: "Nasar", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
-  { name: "Abdullah", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
+  { name: "Malik AbdulMoiz Zaheer", role: "Partner · Operations", body: "Runs the dialer, CRM, merchant setup, sales records and call QA." },
+  { name: "Zain-Ul-Abideen", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
+  { name: "Mirza Nasar Hussain", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
+  { name: "Abdullah Arshad", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
 ];
 
 export const standards = [
