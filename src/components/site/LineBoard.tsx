@@ -30,7 +30,7 @@ function stateAt(states: State[], tick: number) {
     if (t < s.units) return s;
     t -= s.units;
   }
-  return states[0];
+  return states[0]!;
 }
 
 const lampClass: Record<Lamp, string> = {
