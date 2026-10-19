@@ -43,7 +43,7 @@ export function Nav() {
       <nav className="container-site grid h-16 grid-cols-[1fr_auto] items-center md:grid-cols-[1fr_auto_1fr]" aria-label="Main">
         <a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0 }); }}><Logo /></a>
         <div className="hidden items-center gap-7 md:flex">
-          {LINKS.slice(0, 4).map((l) => (
+          {LINKS.map((l) => (
             <AnchorLink key={l.id} id={l.id} className="text-sm text-muted-foreground transition-colors hover:text-ink">{l.label}</AnchorLink>
           ))}
         </div>
