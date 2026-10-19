@@ -34,9 +34,9 @@ function stateAt(states: State[], tick: number) {
 }
 
 const lampClass: Record<Lamp, string> = {
-  busy: "bg-lamp-busy",
-  ok: "bg-lamp-ok",
-  idle: "bg-lamp-idle",
+  busy: "bg-muted-foreground",
+  ok: "bg-black",
+  idle: "bg-line",
 };
 
 export function LineBoard() {
@@ -49,45 +49,50 @@ export function LineBoard() {
   }, [reduce]);
 
   return (
-    <figure
-      className="rounded-md border border-board-line bg-board font-mono text-board-foreground shadow-[0_30px_60px_-30px_rgb(14_35_40/0.55)]"
-      aria-label="Illustration of a line board showing call states"
-    >
-      <div className="flex items-center justify-between border-b border-board-line px-4 py-3 sm:px-5">
-        <div className="flex items-center gap-2.5">
-          <span className="lamp-pulse h-2 w-2 rounded-full bg-lamp-busy" />
-          <span className="text-xs uppercase tracking-[0.14em]">Line board</span>
-        </div>
-        <span className="rounded-sm border border-board-line px-2 py-0.5 text-[0.65rem] uppercase tracking-[0.12em] text-board-muted">
-          Illustration
-        </span>
+    <figure className="overflow-hidden rounded-[4px] bg-white text-ink" aria-label="Illustration of a line board showing call states">
+      <div className="flex items-center gap-1.5 border-b px-4 py-3">
+        {[0, 1, 2].map((i) => <span key={i} className="h-2.5 w-2.5 rounded-full bg-grey" />)}
+        <span className="ml-3 text-xs text-muted-foreground">Line board · Illustration</span>
       </div>
-      <ul>
-        {ROWS.map((r) => {
-          const s = stateAt(r.states, tick + r.offset);
-          const active = !!s.active && !reduce;
-          return (
-            <li key={r.name} className="grid grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-board-line px-4 py-4 sm:grid-cols-[auto_6rem_1fr_auto] sm:px-5">
-              <span className={`h-2.5 w-2.5 rounded-full transition-colors duration-500 ${lampClass[s.lamp]}`} />
-              <span className="text-sm">{r.name}</span>
-              <span className="hidden h-5 items-center gap-[3px] sm:flex" aria-hidden="true">
-                {Array.from({ length: 14 }).map((_, i) => (
-                  <span
-                    key={i}
-                    className={`h-full w-[3px] origin-center rounded-full ${active ? "bg-lamp-ok" : "bg-board-line"}`}
-                    style={{
-                      transform: active ? undefined : "scaleY(0.25)",
-                      animation: active ? `bar ${0.7 + ((i * 37) % 9) / 15}s ease-in-out ${(i % 5) * 0.08}s infinite` : "none",
-                    }}
-                  />
-                ))}
-              </span>
-              <span className="w-24 text-right text-xs uppercase tracking-[0.1em] text-board-muted">{s.label}</span>
-            </li>
-          );
-        })}
-      </ul>
-      <figcaption className="px-4 py-3 text-xs text-board-muted sm:px-5">
+      <div className="grid md:grid-cols-[180px_1fr]">
+        <aside className="hidden border-r bg-beige p-4 text-sm md:block">
+          <p className="eyebrow mb-3">Workspace</p>
+          {["Line board", "QA queue", "Reports"].map((t, i) => (
+            <p key={t} className={`rounded-[3px] px-2 py-1.5 ${i === 0 ? "bg-white font-medium" : "text-muted-foreground"}`}>{t}</p>
+          ))}
+        </aside>
+        <div>
+          <div className="grid grid-cols-[auto_1fr_auto] gap-3 border-b px-4 py-2.5 text-xs text-muted-foreground sm:grid-cols-[auto_7rem_1fr_auto] sm:px-5">
+            <span className="w-2.5" /><span>Line</span><span className="hidden sm:block">Activity</span><span className="w-24 text-right">Status</span>
+          </div>
+          <ul>
+            {ROWS.map((r) => {
+              const s = stateAt(r.states, tick + r.offset);
+              const active = !!s.active && !reduce;
+              return (
+                <li key={r.name} className="grid grid-cols-[auto_1fr_auto] items-center gap-3 border-b px-4 py-4 last:border-b-0 sm:grid-cols-[auto_7rem_1fr_auto] sm:px-5">
+                  <span className={`h-2.5 w-2.5 rounded-full transition-colors duration-500 ${lampClass[s.lamp]} ${s.lamp === "busy" ? "lamp-pulse" : ""}`} />
+                  <span className="text-sm font-medium">{r.name}</span>
+                  <span className="hidden h-5 items-center gap-[3px] sm:flex" aria-hidden="true">
+                    {Array.from({ length: 16 }).map((_, i) => (
+                      <span
+                        key={i}
+                        className={`h-full w-[3px] origin-center rounded-full ${active ? "bg-black" : "bg-line"}`}
+                        style={{
+                          transform: active ? undefined : "scaleY(0.25)",
+                          animation: active ? `bar ${0.7 + ((i * 37) % 9) / 15}s ease-in-out ${(i % 5) * 0.08}s infinite` : "none",
+                        }}
+                      />
+                    ))}
+                  </span>
+                  <span className="w-24 text-right text-xs text-muted-foreground">{s.label}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+      <figcaption className="border-t px-4 py-3 text-xs text-muted-foreground sm:px-5">
         Every sale call passes QA before it is submitted.
       </figcaption>
     </figure>

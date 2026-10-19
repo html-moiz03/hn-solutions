@@ -7,24 +7,22 @@ export function Reveal({ children, className, delay = 0 }: { children: ReactNode
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0.7, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.4, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
   );
 }
 
-export function SectionHead({ eyebrow, title, intro }: { eyebrow: string; title: string; intro: string }) {
+export function SectionHead({ eyebrow, title, intro, dark = false }: { eyebrow: string; title: string; intro?: string; dark?: boolean }) {
   return (
-    <Reveal className="grid gap-4 border-t pt-6 md:grid-cols-12 md:gap-8">
-      <p className="eyebrow md:col-span-3">{eyebrow}</p>
-      <div className="md:col-span-9">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl">{title}</h2>
-        <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{intro}</p>
-      </div>
+    <Reveal className="max-w-3xl">
+      <p className={`eyebrow ${dark ? "text-white/60" : ""}`}>{eyebrow}</p>
+      <h2 className={`mt-4 text-4xl sm:text-5xl md:text-[3.25rem] ${dark ? "text-white" : ""}`}>{title}</h2>
+      {intro && <p className={`mt-5 max-w-2xl text-lg ${dark ? "text-white/70" : "text-muted-foreground"}`}>{intro}</p>}
     </Reveal>
   );
 }

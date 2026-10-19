@@ -1,7 +1,7 @@
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
-import { useRef, useState } from "react";
-import { ArrowRight, ArrowUpRight, Check, Copy } from "lucide-react";
-import { CONTACT, hero, partnership, services, standards, steps, team, ticker } from "@/content/site";
+import { useEffect, useRef, useState } from "react";
+import { ChevronRight } from "lucide-react";
+import { CONTACT, hero, partnership, services, standards, steps, team } from "@/content/site";
 import { Glyph, Reveal, SectionHead } from "./primitives";
 import { LineBoard } from "./LineBoard";
 
@@ -9,33 +9,46 @@ export function scrollToId(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
   const lenis = (window as unknown as { __lenis?: { scrollTo: (e: Element, o: object) => void } }).__lenis;
-  if (lenis) lenis.scrollTo(el, { offset: -72 });
+  if (lenis) lenis.scrollTo(el, { offset: -64 });
   else el.scrollIntoView({ behavior: "smooth" });
 }
 
-function NavLink({ id, children }: { id: string; children: string }) {
+const LINKS = [
+  { id: "services", label: "Services" },
+  { id: "process", label: "Process" },
+  { id: "team", label: "Team" },
+  { id: "standards", label: "Standards" },
+  { id: "partnership", label: "Partnership" },
+];
+
+function AnchorLink({ id, children, className }: { id: string; children: React.ReactNode; className?: string }) {
   return (
-    <a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+    <a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }} className={className}>
       {children}
     </a>
   );
 }
 
+function Logo({ dark = false }: { dark?: boolean }) {
+  return (
+    <span className={`flex items-center gap-2 font-display text-lg font-medium tracking-tight ${dark ? "text-white" : ""}`}>
+      <Glyph className="h-4 w-4" /> HN Solutions
+    </span>
+  );
+}
+
 export function Nav() {
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-sm">
-      <nav className="container-site flex h-16 items-center justify-between" aria-label="Main">
-        <a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0 }); }} className="flex items-center gap-2 font-display text-lg font-bold [font-stretch:115%]">
-          <Glyph className="h-4 w-4 text-signal" /> HN Solutions
-        </a>
-        <div className="flex items-center gap-8">
-          <div className="hidden items-center gap-7 md:flex">
-            <NavLink id="services">Services</NavLink>
-            <NavLink id="process">Process</NavLink>
-            <NavLink id="team">Team</NavLink>
-            <NavLink id="standards">Standards</NavLink>
-          </div>
-          <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToId("contact"); }} className="btn btn-outline h-9 text-sm">Contact</a>
+    <header className="sticky top-0 z-40 border-b bg-white">
+      <nav className="container-site grid h-16 grid-cols-[1fr_auto] items-center md:grid-cols-[1fr_auto_1fr]" aria-label="Main">
+        <a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0 }); }}><Logo /></a>
+        <div className="hidden items-center gap-7 md:flex">
+          {LINKS.slice(0, 4).map((l) => (
+            <AnchorLink key={l.id} id={l.id} className="text-sm text-muted-foreground transition-colors hover:text-ink">{l.label}</AnchorLink>
+          ))}
+        </div>
+        <div className="flex justify-end">
+          <AnchorLink id="partnership" className="btn btn-dark h-9">Contact</AnchorLink>
         </div>
       </nav>
     </header>
@@ -44,83 +57,125 @@ export function Nav() {
 
 export function Hero() {
   const reduce = useReducedMotion();
+  const [hasImg, setHasImg] = useState(false);
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setHasImg(true);
+    img.src = "/hero-office.jpg";
+  }, []);
   const item = {
-    hidden: reduce ? {} : { opacity: 0, y: 18 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const } },
+    hidden: reduce ? {} : { opacity: 0, y: 12 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
   };
   return (
-    <section id="top" className="relative overflow-hidden">
-      <div className="halftone pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
-      <div className="container-site relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-12">
-        <motion.div className="lg:col-span-7" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.1 } } }}>
-          <motion.p variants={item} className="eyebrow flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-signal" /> {hero.eyebrow}
-          </motion.p>
-          <motion.h1 variants={item} className="mt-6 text-[2.4rem] sm:text-5xl lg:text-[4.1rem]">{hero.title}</motion.h1>
-          <motion.p variants={item} className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">{hero.lede}</motion.p>
-          <motion.div variants={item} className="mt-9 flex flex-wrap gap-3">
-            <button onClick={() => scrollToId("process")} className="btn btn-signal group">
-              See how a sale moves <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+    <section id="top" className="relative flex min-h-[calc(100vh-4rem)] flex-col overflow-hidden bg-black text-white">
+      <div className="hero-fallback absolute inset-0" aria-hidden="true" />
+      {hasImg && (
+        <div className="ken-burns absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url(/hero-office.jpg)" }} aria-hidden="true" />
+      )}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-transparent" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/70 to-transparent" aria-hidden="true" />
+
+      <div className="container-site relative flex flex-1 items-center py-24">
+        <motion.div className="max-w-4xl" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.1 } } }}>
+          <motion.p variants={item} className="eyebrow text-white/70">{hero.eyebrow}</motion.p>
+          <motion.h1 variants={item} className="mt-6 text-[2.75rem] text-white md:text-7xl lg:text-[5.75rem]">{hero.title}</motion.h1>
+          <motion.p variants={item} className="mt-7 max-w-xl text-lg leading-relaxed text-white/80">{hero.lede}</motion.p>
+          <motion.div variants={item} className="mt-10 flex flex-wrap gap-3">
+            <button onClick={() => scrollToId("process")} className="btn btn-light">
+              See how a sale moves <ChevronRight className="h-4 w-4" />
             </button>
-            <button onClick={() => scrollToId("contact")} className="btn btn-outline">Get in touch</button>
+            <button onClick={() => scrollToId("partnership")} className="btn btn-ghost-dark">Get in touch</button>
           </motion.div>
         </motion.div>
-        <motion.div
-          className="lg:col-span-5"
-          initial={reduce ? false : { opacity: 0, y: 30, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <LineBoard />
-        </motion.div>
+      </div>
+
+      <div className="container-site relative pb-8">
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-white/10 pt-6 text-sm text-white/70 md:grid-cols-4">
+          {services.map((s) => <li key={s.title}>{s.title}</li>)}
+        </ul>
       </div>
     </section>
   );
 }
 
-export function Ticker() {
-  const items = [...ticker, ...ticker];
+export function Statement() {
   return (
-    <div className="overflow-hidden border-y bg-card py-3" aria-label={ticker.join(", ")}>
-      <div className="marquee-track flex w-max" aria-hidden="true">
-        {[0, 1].map((k) => (
-          <div key={k} className="flex shrink-0">
-            {items.map((t, i) => (
-              <span key={`${k}-${i}`} className="eyebrow flex items-center gap-6 pr-6 text-foreground">
-                {t} <span className="h-1 w-1 rounded-full bg-signal" />
-              </span>
-            ))}
-          </div>
+    <section className="container-site section-pad">
+      <Reveal>
+        <p className="max-w-[800px] font-display text-3xl font-medium leading-[1.2] tracking-[-0.02em] sm:text-4xl md:text-[2.75rem]">
+          Every sale is reviewed against its recording before it is submitted.{" "}
+          <span className="text-soft">Three experienced closers work the phones. One operator runs the dialer, CRM and QA.</span>
+        </p>
+      </Reveal>
+    </section>
+  );
+}
+
+export function ProductFrame() {
+  return (
+    <section className="container-site pb-[100px] md:pb-[140px]">
+      <Reveal>
+        <div className="rounded-[4px] bg-black p-4 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.45)] sm:p-8 md:p-14">
+          <LineBoard />
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+function ServiceTicker() {
+  const reduce = useReducedMotion();
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (reduce || paused) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % services.length), 2500);
+    return () => clearInterval(id);
+  }, [reduce, paused]);
+  const ROW = 72;
+  return (
+    <div
+      className="relative h-[216px] overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <motion.ul
+        animate={{ y: ROW - active * ROW }}
+        transition={{ duration: reduce ? 0 : 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {services.map((s, i) => (
+          <li key={s.title} style={{ height: ROW }} className="flex items-center">
+            <button
+              onClick={() => setActive(i)}
+              className={`text-left font-display text-3xl font-medium tracking-[-0.02em] transition-colors duration-500 sm:text-5xl ${i === active ? "text-ink" : "text-soft/60"}`}
+            >
+              {s.title}
+            </button>
+          </li>
         ))}
-      </div>
+      </motion.ul>
     </div>
   );
 }
 
 export function Services() {
-  const spans = ["md:col-span-7", "md:col-span-5", "md:col-span-5", "md:col-span-7"];
   return (
-    <section id="services" className="container-site scroll-mt-20 py-20 md:py-28">
-      <SectionHead eyebrow="01 · Services" title="What the team handles" intro="One team covers the calls, the checks and the paperwork around them." />
-      <div className="mt-12 grid gap-4 md:grid-cols-12">
-        {services.map((s, i) => (
-          <Reveal key={s.title} delay={i * 0.06} className={spans[i]}>
-            <article className="group relative flex h-full flex-col rounded-md border bg-card p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-8">
-              <div className="flex items-center justify-between">
-                <span className="eyebrow">{String(i + 1).padStart(2, "0")}</span>
-                <span className={`rounded-sm border px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.12em] ${s.tag === "Closers" ? "text-signal" : "text-ok"}`}>{s.tag}</span>
-              </div>
-              <h3 className="mt-10 inline-flex items-center gap-2 text-2xl sm:text-3xl">
-                <span className="relative">
-                  {s.title}
-                  <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 bg-signal transition-transform duration-300 group-hover:scale-x-100" />
-                </span>
-                <ArrowUpRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-signal" />
-              </h3>
-              <p className="mt-4 max-w-lg text-muted-foreground">{s.body}</p>
-            </article>
-          </Reveal>
-        ))}
+    <section id="services" className="scroll-mt-16 bg-beige section-pad">
+      <div className="container-site">
+        <div className="grid gap-8 md:grid-cols-12">
+          <p className="eyebrow md:col-span-4 md:pt-8">What we run</p>
+          <div className="md:col-span-8"><ServiceTicker /></div>
+        </div>
+        <div className="mt-20 grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+          {services.map((s, i) => (
+            <Reveal key={s.title} delay={i * 0.05} className="border-b border-line py-8 sm:border-b-0 sm:pr-8 lg:border-l lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
+              <p className="eyebrow">{s.tag}</p>
+              <h3 className="mt-4 text-xl">{s.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -129,9 +184,11 @@ export function Services() {
 function Step({ i, title, body, progress }: { i: number; title: string; body: string; progress: number }) {
   const lit = progress >= (i + 0.3) / steps.length;
   return (
-    <li className="relative grid gap-2 pb-12 pl-12 last:pb-0 md:grid-cols-12 md:gap-8">
-      <span className={`absolute left-[9px] top-1.5 h-3.5 w-3.5 rounded-full border-2 transition-colors duration-300 ${lit ? "border-signal bg-signal" : "border-border bg-background"}`} />
-      <p className="eyebrow md:col-span-2">Step {String(i + 1).padStart(2, "0")}</p>
+    <li className="relative grid gap-3 border-b py-10 pl-10 last:border-b-0 md:grid-cols-12 md:gap-8">
+      <span className={`absolute left-[11px] top-[3.1rem] h-2.5 w-2.5 rounded-full border transition-colors duration-300 ${lit ? "border-black bg-black" : "border-soft bg-white"}`} />
+      <p className={`font-display text-5xl font-light tracking-[-0.02em] transition-colors duration-300 md:col-span-2 ${lit ? "text-ink" : "text-soft"}`}>
+        {String(i + 1).padStart(2, "0")}
+      </p>
       <div className="md:col-span-10">
         <h3 className="text-2xl">{title}</h3>
         <p className="mt-2 max-w-2xl text-muted-foreground">{body}</p>
@@ -149,128 +206,96 @@ export function Process() {
   const [p, setP] = useState(reduce ? 1 : 0);
   useMotionValueEvent(scrollYProgress, "change", (v) => !reduce && setP(v));
   return (
-    <section id="process" className="container-site scroll-mt-20 py-20 md:py-28">
-      <SectionHead eyebrow="02 · Process" title="How a sale moves through our line" intro="Six steps from the first dial to the weekly report." />
-      <ol ref={ref} className="relative mt-14">
-        <span className="absolute bottom-2 left-4 top-2 w-px bg-border" aria-hidden="true" />
-        <motion.span style={{ scaleY }} className="absolute bottom-2 left-4 top-2 w-px origin-top bg-signal" aria-hidden="true" />
+    <section id="process" className="container-site scroll-mt-16 section-pad">
+      <SectionHead eyebrow="Process" title="How a sale moves through our line" intro="Six steps from the first dial to the weekly report." />
+      <ol ref={ref} className="relative mt-16 border-t">
+        <span className="absolute bottom-0 left-4 top-0 w-px bg-line" aria-hidden="true" />
+        <motion.span style={{ scaleY }} className="absolute bottom-0 left-4 top-0 w-px origin-top bg-black" aria-hidden="true" />
         {steps.map((s, i) => <Step key={s.title} i={i} {...s} progress={reduce ? 1 : p} />)}
       </ol>
     </section>
   );
 }
 
-export function Team() {
+export function TeamStandards() {
   return (
-    <section id="team" className="container-site scroll-mt-20 py-20 md:py-28">
-      <SectionHead eyebrow="03 · Team" title="Four partners, one line" intro="Three closers on the phones and one operator behind them. All four own the company." />
-      <ul className="mt-12 grid border-l border-t sm:grid-cols-2 lg:grid-cols-4">
-        {team.map((m, i) => (
-          <Reveal key={m.name} delay={i * 0.06} className="border-b border-r">
-            <li className="group h-full bg-card p-6 sm:p-8">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full border border-foreground font-display text-xl font-bold transition-colors duration-300 group-hover:border-signal group-hover:bg-signal group-hover:text-signal-foreground">
-                {m.name[0]}
-              </div>
-              <h3 className="mt-6 text-2xl">{m.name}</h3>
-              <p className="eyebrow mt-2">{m.role}</p>
-              <p className="mt-4 text-muted-foreground">{m.body}</p>
-            </li>
-          </Reveal>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-export function Standards() {
-  return (
-    <section id="standards" className="container-site scroll-mt-20 py-20 md:py-28">
-      <SectionHead eyebrow="04 · Standards" title="How we work" intro="The rules we hold ourselves to on every campaign." />
-      <ul className="mt-12 grid gap-x-10 md:grid-cols-2">
-        {standards.map((s, i) => (
-          <Reveal key={s.title} delay={(i % 2) * 0.06}>
-            <li className="flex gap-4 border-b py-6">
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-ok text-ok">
-                <Check className="h-3.5 w-3.5" strokeWidth={3} />
-              </span>
-              <div>
+    <section className="bg-grey section-pad">
+      <div id="team" className="container-site scroll-mt-16">
+        <SectionHead eyebrow="Team" title="Four partners, one line" intro="Three closers on the phones and one operator behind them. All four own the company." />
+        <ul className="mt-14 grid border-t border-black/10 sm:grid-cols-2 lg:grid-cols-4">
+          {team.map((m, i) => (
+            <Reveal key={m.name} delay={i * 0.05} className="border-b border-black/10 py-8 sm:pr-8 lg:border-b-0 lg:border-l lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
+              <li>
+                <h3 className="text-3xl font-light">{m.name}</h3>
+                <p className="eyebrow mt-3">{m.role}</p>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{m.body}</p>
+              </li>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+      <div id="standards" className="container-site mt-[100px] scroll-mt-16 md:mt-[140px]">
+        <SectionHead eyebrow="Standards" title="How we work" intro="The rules we hold ourselves to on every campaign." />
+        <ul className="mt-14 grid border-t border-black/10 md:grid-cols-3">
+          {standards.map((s, i) => (
+            <Reveal key={s.title} delay={(i % 3) * 0.05} className="border-b border-black/10 py-8 md:pr-8">
+              <li>
                 <h3 className="text-xl">{s.title}</h3>
-                <p className="mt-1.5 text-muted-foreground">{s.body}</p>
-              </div>
-            </li>
-          </Reveal>
-        ))}
-      </ul>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+              </li>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
 
 export function Partnership() {
   const cols = [
-    { title: "We bring", items: partnership.bring, marker: "bg-ok" },
-    { title: "We need from a partner", items: partnership.need, marker: "bg-signal" },
+    { title: "We bring", items: partnership.bring },
+    { title: "We need from a partner", items: partnership.need },
   ];
   return (
-    <section className="container-site py-20 md:py-28">
-      <SectionHead eyebrow="05 · Partnership" title="What we bring and what we need" intro="Terms are discussed directly, on a call or by email." />
-      <div className="mt-12 grid gap-4 md:grid-cols-2">
-        {cols.map((c, i) => (
-          <Reveal key={c.title} delay={i * 0.08}>
-            <div className="h-full rounded-md border bg-card p-6 sm:p-8">
-              <h3 className="text-2xl">{c.title}</h3>
-              <ul className="mt-6">
+    <section id="partnership" className="scroll-mt-16 bg-black text-white section-pad">
+      <div className="container-site">
+        <SectionHead dark eyebrow="Partnership" title="What we bring and what we need" intro="Terms are discussed directly, on a call or by email." />
+        <div className="mt-14 grid gap-12 md:grid-cols-2">
+          {cols.map((c, i) => (
+            <Reveal key={c.title} delay={i * 0.06}>
+              <h3 className="text-2xl text-white">{c.title}</h3>
+              <ul className="mt-6 border-t border-white/10">
                 {c.items.map((t) => (
-                  <li key={t} className="flex items-start gap-3 border-t py-4">
-                    <span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${c.marker}`} />
-                    <span>{t}</span>
-                  </li>
+                  <li key={t} className="border-b border-white/10 py-4 text-white/80">{t}</li>
                 ))}
               </ul>
-            </div>
-          </Reveal>
-        ))}
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="mt-12">
+          <button onClick={() => scrollToId("process")} className="btn btn-ghost-dark">
+            See how a sale moves <ChevronRight className="h-4 w-4" />
+          </button>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-function CopyRow({ label, value }: { label: string; value: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <li className="flex flex-wrap items-center justify-between gap-3 border-b py-5">
-      <div className="min-w-0">
-        <p className="eyebrow">{label}</p>
-        <p className="mt-1 break-all text-lg">{value}</p>
-      </div>
-      <button
-        onClick={() => { navigator.clipboard?.writeText(value); setCopied(true); setTimeout(() => setCopied(false), 1600); }}
-        className="btn btn-outline h-9 text-sm"
-        aria-label={`Copy ${label}`}
-      >
-        {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} {copied ? "Copied" : "Copy"}
-      </button>
-    </li>
-  );
-}
-
-export function Contact() {
+export function Closing() {
   const rows = [
-    { label: "Email", value: CONTACT.email },
-    { label: "Phone", value: CONTACT.phone },
-    { label: "LinkedIn", value: CONTACT.linkedin },
-  ].filter((r) => r.value.trim());
+    { label: "Email", href: CONTACT.email && `mailto:${CONTACT.email}` },
+    { label: "Phone", href: CONTACT.phone && `tel:${CONTACT.phone}` },
+    { label: "LinkedIn", href: CONTACT.linkedin },
+  ].filter((r) => r.href.trim());
   return (
-    <section id="contact" className="container-site scroll-mt-20 py-20 md:py-28">
-      <Reveal className="grid gap-8 border-t pt-6 md:grid-cols-12">
-        <p className="eyebrow md:col-span-3">06 · Contact</p>
-        <div className="md:col-span-9">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl">Start with a short call.</h2>
-          <p className="mt-5 max-w-2xl text-lg text-muted-foreground">Tell us about your campaign and we will walk you through our setup and answer questions about the team.</p>
-          {rows.length ? (
-            <ul className="mt-10 max-w-2xl border-t">{rows.map((r) => <CopyRow key={r.label} {...r} />)}</ul>
-          ) : (
-            <p className="mt-10 max-w-2xl border-l-2 border-signal pl-4">Contact details are shared by the person who sent you this page.</p>
-          )}
+    <section className="border-t border-white/10 bg-black text-white">
+      <Reveal className="container-site flex flex-col gap-8 py-[100px] md:flex-row md:items-end md:justify-between md:py-[120px]">
+        <h2 className="max-w-2xl text-4xl text-white sm:text-5xl">Run your next campaign with HN Solutions.</h2>
+        <div className="flex flex-wrap gap-3">
+          <button onClick={() => scrollToId("partnership")} className="btn btn-light">Get in touch <ChevronRight className="h-4 w-4" /></button>
+          <button onClick={() => scrollToId("services")} className="btn btn-ghost-dark">Our services</button>
+          {rows.map((r) => <a key={r.label} href={r.href} className="btn btn-ghost-dark">{r.label}</a>)}
         </div>
       </Reveal>
     </section>
@@ -278,9 +303,29 @@ export function Contact() {
 }
 
 export function Footer() {
+  const cols = [
+    { title: "Company", links: LINKS.filter((l) => ["team", "standards", "partnership"].includes(l.id)) },
+    { title: "Work", links: LINKS.filter((l) => ["services", "process"].includes(l.id)) },
+  ];
   return (
-    <footer className="border-t">
-      <div className="container-site flex flex-wrap justify-between gap-3 py-8 font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
+    <footer className="bg-black text-white">
+      <div className="container-site grid gap-10 border-t border-white/10 py-14 md:grid-cols-12">
+        <div className="md:col-span-6">
+          <Logo dark />
+          <p className="mt-4 max-w-sm text-sm text-white/60">{hero.title}</p>
+        </div>
+        {cols.map((c) => (
+          <div key={c.title} className="md:col-span-3">
+            <p className="eyebrow text-white/50">{c.title}</p>
+            <ul className="mt-4 space-y-2.5">
+              {c.links.map((l) => (
+                <li key={l.id}><AnchorLink id={l.id} className="text-sm text-white/80 hover:text-white">{l.label}</AnchorLink></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="container-site flex flex-wrap justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/50">
         <span>HN Solutions · Based in Pakistan</span>
         <span>© 2026 HN Solutions</span>
       </div>
