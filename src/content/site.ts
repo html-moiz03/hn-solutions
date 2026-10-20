@@ -18,9 +18,9 @@ export const ticker = [
 ];
 
 export const hero = {
-  eyebrow: "Outbound sales team · Based in Pakistan",
+  eyebrow: "Outbound sales BPO · Based in Pakistan",
   title: "Outbound sales calls, checked before they reach you.",
-  lede: "HN Solutions is an outbound sales team for US auto warranty campaigns. Experienced fronters and closers work the phones, and an operations lead runs the dialer, CRM and QA, so every sale is reviewed against its recording before it is submitted.",
+  lede: "HN Solutions is an outbound call center for US auto and home warranty programs. Experienced fronters and closers work the phones, and our operations desk runs the dialer, CRM and QA, so every sale is reviewed against its recording before it reaches you.",
 };
 
 export const services = [
@@ -57,18 +57,34 @@ export const standards = [
 
 export const partnership = {
   bring: [
-    "An experienced closing team, ready to start",
+    "Experienced fronters and closers, ready to start",
     "Our own dialer, agents and workstations",
     "Recorded calls and QA on every sale",
     "Weekly sales and chargeback reporting",
   ],
   need: [
-    "An auto warranty campaign with an approved script and product",
+    "An auto or home warranty program with an approved script and product terms",
     "A merchant account and payment gateway",
-    "Clear terms on compliance and chargebacks",
-    "A written agreement before we start",
+    "Compliance and chargeback terms agreed up front",
+    "A written agreement before launch",
   ],
 };
+
+export const metrics = [
+  { value: "5+", label: "years of warranty sales experience" },
+  { value: "100%", label: "of sale calls recorded" },
+  { value: "100%", label: "of sales QA-reviewed before submission" },
+  { value: "Weekly", label: "sales and chargeback reporting" },
+];
+
+export const floor = [
+  { title: "Dialer", body: "Our own outbound dialer, with lists scrubbed against DNC before a call goes out." },
+  { title: "CRM and records", body: "Every lead, call outcome and sale is logged and kept in house." },
+  { title: "Agent workstations", body: "Dedicated agents and workstations, set up and ready for your campaign." },
+  { title: "Call recording", body: "Sale calls are recorded and stored, so any sale can be checked." },
+  { title: "QA scoring", body: "Each recording is scored against a checklist before the sale is submitted." },
+  { title: "Reporting", body: "Weekly sales and chargeback reports, shared as they are." },
+];
 
 export const experience = {
   years: 5,
@@ -86,11 +102,11 @@ export const experience = {
 };
 
 export const faq = [
-  { q: "What does HN Solutions do?", a: "We are an outbound sales team based in Pakistan, working US auto warranty campaigns. Fronters make the calls, Closers close them, and an Operator runs the dialer, CRM and quality checks." },
+  { q: "What does HN Solutions do?", a: "We are an outbound call center (BPO) based in Pakistan, running US auto and home warranty campaigns. Fronters make the calls, Closers close them, and an Operator runs the dialer, CRM and quality checks." },
   { q: "Who makes the calls?", a: "Experienced fronters and closers with real floor experience in auto and home warranty sales. We start with a focused campaign and scale once the results hold." },
   { q: "Are calls recorded and checked?", a: "Yes. Every sale call is recorded and scored against a checklist before it is submitted. Sales that fail go back for correction or a retention call and are not passed on." },
   { q: "How do you handle calling rules?", a: "Leads are scrubbed against DNC lists, the source of the leads is agreed with the campaign owner, and calls go out only inside legal calling hours." },
-  { q: "What do you need from a partner?", a: "An auto warranty campaign with an approved script and product, a merchant account and payment gateway, clear terms on compliance and chargebacks, and a written agreement before we start." },
-  { q: "What do you bring?", a: "A closing team ready to start, our own dialer, agents and workstations, recorded calls with QA on every sale, and weekly sales and chargeback reports." },
-  { q: "How do we get started?", a: "Get in touch and we will talk through your campaign. Terms are discussed directly, then we start with a focused campaign and scale on results." },
+  { q: "What do you need to launch a campaign?", a: "An auto or home warranty program with an approved script and product terms, a merchant account and payment gateway, compliance and chargeback terms agreed up front, and a written agreement before launch." },
+  { q: "What do carriers get?", a: "Experienced fronters and closers ready to start, our own dialer, agents and workstations, recorded calls with QA on every sale, and weekly sales and chargeback reports." },
+  { q: "How do we get started?", a: "Get in touch with your program details. We agree the terms, set up the dialer and QA for your campaign, and start dialing." },
 ];

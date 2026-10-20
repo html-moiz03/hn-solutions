@@ -1,8 +1,8 @@
 import { animate, motion, useInView, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, BarChart3, Check, ChevronRight, ClipboardCheck, FileCheck, Headset, Menu, PhoneCall, PhoneOutgoing, Plus, Repeat, ScanSearch, Send, X } from "lucide-react";
+import { ArrowUp, AudioLines, BarChart3, Check, ChevronRight, ClipboardCheck, Database, FileCheck, Headset, Menu, Monitor, PhoneCall, PhoneOutgoing, Plus, Repeat, ScanSearch, Send, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { CONTACT, experience, faq, hero, partnership, services, standards, steps, team } from "@/content/site";
+import { CONTACT, experience, faq, floor, metrics, hero, partnership, services, standards, steps, team } from "@/content/site";
 import { Glyph, Reveal, SectionHead } from "./primitives";
 import { LineBoard } from "./LineBoard";
 
@@ -19,7 +19,7 @@ const LINKS = [
   { id: "process", label: "Process" },
   { id: "team", label: "Team" },
   { id: "standards", label: "Standards" },
-  { id: "partnership", label: "Partnership" },
+  { id: "partnership", label: "Work with us" },
   { id: "faq", label: "FAQ" },
 ];
 
@@ -162,7 +162,7 @@ export function Hero() {
             <button onClick={() => scrollToId("process")} className="btn btn-light">
               See how a sale moves <ChevronRight className="h-4 w-4" />
             </button>
-            <button onClick={() => scrollToId("partnership")} className="btn btn-ghost-dark">Get in touch</button>
+            <button onClick={() => scrollToId("partnership")} className="btn btn-ghost-dark">Start a campaign</button>
           </motion.div>
         </motion.div>
       </div>
@@ -240,13 +240,54 @@ export function Experience() {
   );
 }
 
+export function Metrics() {
+  return (
+    <section aria-label="Key figures" className="border-b">
+      <ul className="container-site grid grid-cols-2 md:grid-cols-4">
+        {metrics.map((m, i) => (
+          <Reveal key={m.label} delay={i * 0.05} className="border-b px-6 py-10 [&:nth-child(2n+1)]:border-r [&:nth-child(2n+1)]:pl-0 md:border-b-0 md:border-r md:[&:nth-child(3)]:pl-6 md:[&:nth-child(1)]:!pl-0 md:last:border-r-0 [&:nth-last-child(-n+2)]:border-b-0">
+            <p className="font-display text-4xl font-medium tracking-[-0.03em] sm:text-5xl">{m.value}</p>
+            <p className="mt-3 max-w-[16rem] text-sm text-muted-foreground">{m.label}</p>
+          </Reveal>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+const FLOOR_ICONS: LucideIcon[] = [PhoneOutgoing, Database, Monitor, AudioLines, ClipboardCheck, BarChart3];
+
+export function Floor() {
+  return (
+    <section id="floor" className="scroll-mt-16 section-pad">
+      <div className="container-site">
+        <SectionHead eyebrow="Infrastructure" title="Everything runs on our floor" intro="The tools, people and checks behind every campaign are ours, in one place." />
+        <ul className="mt-14 grid gap-px overflow-hidden rounded-[4px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          {floor.map((f, i) => {
+            const Icon = FLOOR_ICONS[i % FLOOR_ICONS.length]!;
+            return (
+              <Reveal key={f.title} delay={i * 0.04} className="group bg-white p-8 transition-colors duration-300 hover:bg-beige">
+                <span className="flex h-10 w-10 items-center justify-center rounded-[3px] border border-black/10 bg-white transition-colors duration-300 group-hover:border-black group-hover:bg-black group-hover:text-white">
+                  <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+                </span>
+                <h3 className="mt-6 text-xl">{f.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
+              </Reveal>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 export function Statement() {
   return (
     <section className="container-site section-pad">
       <Reveal>
         <p className="max-w-[800px] font-display text-3xl font-medium leading-[1.2] tracking-[-0.02em] sm:text-4xl md:text-[2.75rem]">
           Every sale is reviewed against its recording before it is submitted.{" "}
-          <span className="text-soft">Experienced fronters and closers work the phones. An operations lead runs the dialer, CRM and QA.</span>
+          <span className="text-soft">Experienced fronters and closers work the phones. Our operations desk runs the dialer, CRM and QA.</span>
         </p>
       </Reveal>
     </section>
@@ -309,7 +350,7 @@ function ServiceTicker() {
 
 export function Services() {
   return (
-    <section id="services" className="scroll-mt-16 bg-beige section-pad">
+    <section id="services" className="scroll-mt-16 section-pad">
       <div className="container-site">
         <div className="grid gap-8 md:grid-cols-12">
           <p className="eyebrow md:col-span-4 md:pt-8">What we run</p>
@@ -381,7 +422,7 @@ export function TeamStandards() {
   return (
     <section className="bg-grey section-pad">
       <div id="team" className="container-site scroll-mt-16">
-        <SectionHead eyebrow="Team" title="The people on the line" intro="Fronters and closers on the phones, and an operator behind them running every check." />
+        <SectionHead eyebrow="Team" title="The people on the line" intro="Fronters and closers on the phones, and an operations desk behind them running every check." />
         <ul className="mt-14 grid border-t border-black/10 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05} className="border-b border-black/10 py-8 sm:pr-8 lg:border-b-0 lg:border-l lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
@@ -424,7 +465,7 @@ export function Faq() {
     <section id="faq" className="scroll-mt-16 section-pad">
       <div className="container-site grid gap-12 md:grid-cols-12">
         <div className="md:col-span-4">
-          <SectionHead eyebrow="FAQ" title="Questions, answered" intro="Short answers to what partners usually ask first." />
+          <SectionHead eyebrow="FAQ" title="Questions, answered" intro="Short answers to what carriers usually ask first." />
         </div>
         <div className="md:col-span-8">
           <ul className="border-t border-line">
@@ -450,13 +491,13 @@ export function Faq() {
 
 export function Partnership() {
   const cols = [
-    { title: "We bring", items: partnership.bring },
-    { title: "We need from a partner", items: partnership.need },
+    { title: "What carriers get", items: partnership.bring },
+    { title: "To launch a campaign", items: partnership.need },
   ];
   return (
     <section id="partnership" className="scroll-mt-16 bg-black text-white section-pad">
       <div className="container-site">
-        <SectionHead dark eyebrow="Partnership" title="What we bring and what we need" intro="Terms are discussed directly, on a call or by email." />
+        <SectionHead dark eyebrow="Work with us" title="Launch a campaign with HN Solutions" intro="Agree the terms, we set up the campaign, and we start dialing." />
         <div className="mt-14 grid gap-6 md:grid-cols-2">
           {cols.map((c, i) => (
             <Reveal key={c.title} delay={i * 0.06} className="rounded-[4px] border border-white/10 p-6 transition-colors duration-300 hover:border-white/25 sm:p-8">
@@ -491,9 +532,9 @@ export function Closing() {
   return (
     <section className="border-t border-white/10 bg-black text-white">
       <Reveal className="container-site flex flex-col gap-8 py-[100px] md:flex-row md:items-end md:justify-between md:py-[120px]">
-        <h2 className="max-w-2xl text-4xl text-white sm:text-5xl">Run your next campaign with HN Solutions.</h2>
+        <h2 className="max-w-2xl text-4xl text-white sm:text-5xl">Put your next campaign on our floor.</h2>
         <div className="flex flex-wrap gap-3">
-          <button onClick={() => scrollToId("partnership")} className="btn btn-light">Get in touch <ChevronRight className="h-4 w-4" /></button>
+          <button onClick={() => scrollToId("partnership")} className="btn btn-light">Start a campaign <ChevronRight className="h-4 w-4" /></button>
           <button onClick={() => scrollToId("services")} className="btn btn-ghost-dark">Our services</button>
           {rows.map((r) => <a key={r.label} href={r.href} className="btn btn-ghost-dark">{r.label}</a>)}
         </div>
