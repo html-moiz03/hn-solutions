@@ -1,8 +1,8 @@
 import { animate, motion, useInView, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, BarChart3, Check, ChevronRight, ClipboardCheck, FileCheck, Headset, Menu, PhoneCall, PhoneOutgoing, Repeat, ScanSearch, Send, X } from "lucide-react";
+import { ArrowUp, BarChart3, Check, ChevronRight, ClipboardCheck, FileCheck, Headset, Menu, PhoneCall, PhoneOutgoing, Plus, Repeat, ScanSearch, Send, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { CONTACT, experience, hero, partnership, services, standards, steps, team } from "@/content/site";
+import { CONTACT, experience, faq, hero, partnership, services, standards, steps, team } from "@/content/site";
 import { Glyph, Reveal, SectionHead } from "./primitives";
 import { LineBoard } from "./LineBoard";
 
@@ -20,6 +20,7 @@ const LINKS = [
   { id: "team", label: "Team" },
   { id: "standards", label: "Standards" },
   { id: "partnership", label: "Partnership" },
+  { id: "faq", label: "FAQ" },
 ];
 
 const SERVICE_ICONS: LucideIcon[] = [PhoneCall, Repeat, ClipboardCheck, BarChart3];
@@ -413,6 +414,35 @@ export function TeamStandards() {
             </Reveal>
           ))}
         </ul>
+      </div>
+    </section>
+  );
+}
+
+export function Faq() {
+  return (
+    <section id="faq" className="scroll-mt-16 section-pad">
+      <div className="container-site grid gap-12 md:grid-cols-12">
+        <div className="md:col-span-4">
+          <SectionHead eyebrow="FAQ" title="Questions, answered" intro="Short answers to what partners usually ask first." />
+        </div>
+        <div className="md:col-span-8">
+          <ul className="border-t border-line">
+            {faq.map((f) => (
+              <li key={f.q} className="border-b border-line">
+                <details className="group">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-lg font-display font-medium [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-black/15 transition-colors group-open:border-black group-open:bg-black group-open:text-white">
+                      <Plus className="h-4 w-4 transition-transform duration-300 group-open:rotate-45" aria-hidden="true" />
+                    </span>
+                  </summary>
+                  <p className="max-w-2xl pb-6 leading-relaxed text-muted-foreground">{f.a}</p>
+                </details>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

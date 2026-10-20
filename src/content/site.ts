@@ -84,3 +84,13 @@ export const experience = {
   ],
   note: "Past campaign experience of our team members. Logos belong to their respective owners and do not imply endorsement or partnership.",
 };
+
+export const faq = [
+  { q: "What does HN Solutions do?", a: "We are an outbound sales team based in Pakistan, working US auto warranty campaigns. Three closers make the calls, and one operator runs the dialer, CRM and quality checks." },
+  { q: "Who makes the calls?", a: "Three partners with real floor experience in auto and home warranty sales. We are a small team by design, and we begin small and grow once the results hold." },
+  { q: "Are calls recorded and checked?", a: "Yes. Every sale call is recorded and scored against a checklist before it is submitted. Sales that fail go back for correction or a retention call and are not passed on." },
+  { q: "How do you handle calling rules?", a: "Leads are scrubbed against DNC lists, the source of the leads is agreed with the campaign owner, and calls go out only inside legal calling hours." },
+  { q: "What do you need from a partner?", a: "An auto warranty campaign with an approved script and product, a merchant account and payment gateway, clear terms on compliance and chargebacks, and a written agreement before we start." },
+  { q: "What do you bring?", a: "A closing team ready to start, our own dialer, agents and workstations, recorded calls with QA on every sale, and weekly sales and chargeback reports." },
+  { q: "How do we get started?", a: "Get in touch and we will talk through your campaign. Terms are discussed directly, then we begin with a small team and scale on results." },
+];
