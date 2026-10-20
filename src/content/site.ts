@@ -86,7 +86,7 @@ export const experience = {
 };
 
 export const faq = [
-  { q: "What does HN Solutions do?", a: "We are an outbound sales team based in Pakistan, working US auto warranty campaigns. Three closers make the calls, and one operator runs the dialer, CRM and quality checks." },
+  { q: "What does HN Solutions do?", a: "We are an outbound sales team based in Pakistan, working US auto warranty campaigns. Fronters make the calls, Closers close them, and an Operator runs the dialer, CRM and quality checks." },
   { q: "Who makes the calls?", a: "Three partners with real floor experience in auto and home warranty sales. We are a small team by design, and we begin small and grow once the results hold." },
   { q: "Are calls recorded and checked?", a: "Yes. Every sale call is recorded and scored against a checklist before it is submitted. Sales that fail go back for correction or a retention call and are not passed on." },
   { q: "How do you handle calling rules?", a: "Leads are scrubbed against DNC lists, the source of the leads is agreed with the campaign owner, and calls go out only inside legal calling hours." },
