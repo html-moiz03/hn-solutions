@@ -71,7 +71,8 @@ export const partnership = {
 };
 
 export const experience = {
-  years: "3+",
+  years: 5,
+  suffix: "+",
   label: "years of auto and home warranty sales experience on our team",
   intro: "Our team has worked auto and home warranty campaigns with:",
   companies: [
@@ -79,6 +80,7 @@ export const experience = {
     { name: "Omega Auto Care", logo: "/logos/omega-auto-care.png", w: 220, h: 66, tall: false },
     { name: "BeeCovered", logo: "/logos/beecovered.png", w: 220, h: 79, tall: false },
     { name: "MotoAssure", logo: "/logos/motoassure.png", w: 90, h: 85, tall: true },
+    { name: "Home Assure", logo: "/logos/home-assure.png", w: 120, h: 77, tall: true },
   ],
   note: "Past campaign experience of our team members. Logos belong to their respective owners and do not imply endorsement or partnership.",
 };

@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
+import { animate, motion, useInView, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ChevronRight, Menu, X } from "lucide-react";
 import { CONTACT, experience, hero, partnership, services, standards, steps, team } from "@/content/site";
@@ -130,19 +130,38 @@ export function Hero() {
   );
 }
 
+function CountUp({ to, suffix = "", className }: { to: number; suffix?: string; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const reduce = useReducedMotion();
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    if (reduce) { setN(to); return; }
+    const controls = animate(0, to, { duration: 1.8, ease: [0.22, 1, 0.36, 1], onUpdate: (v) => setN(Math.round(v)) });
+    return () => controls.stop();
+  }, [inView, reduce, to]);
+  return (
+    <p ref={ref} className={className} aria-label={`${to}${suffix}`}>
+      <span aria-hidden="true" className="inline-block min-w-[0.6em] tabular-nums">{n}</span>
+      <span aria-hidden="true">{suffix}</span>
+    </p>
+  );
+}
+
 export function Experience() {
   return (
     <section aria-label="Team experience" className="border-b">
       <div className="container-site grid gap-10 py-14 md:grid-cols-12 md:py-20">
         <Reveal className="md:col-span-5">
-          <p className="font-display text-7xl font-light tracking-[-0.03em] md:text-8xl">{experience.years}</p>
+          <CountUp to={experience.years} suffix={experience.suffix} className="font-display text-7xl font-light tracking-[-0.03em] md:text-8xl" />
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">{experience.label}</p>
         </Reveal>
         <Reveal delay={0.05} className="md:col-span-7">
           <p className="eyebrow">{experience.intro}</p>
-          <ul className="mt-5 grid grid-cols-2 border-l border-t">
-            {experience.companies.map((c) => (
-              <li key={c.name} className="flex h-28 items-center justify-center border-b border-r bg-white px-6 sm:h-32">
+          <ul className="mt-5 grid grid-cols-2 border-l border-t sm:grid-cols-6">
+            {experience.companies.map((c, i) => (
+              <li key={c.name} className={`flex h-28 items-center justify-center border-b border-r bg-white px-6 sm:h-32 ${i === experience.companies.length - 1 ? "col-span-2 sm:col-span-3" : i === experience.companies.length - 2 ? "sm:col-span-3" : "sm:col-span-2"}`}>
                 <img
                   src={c.logo}
                   alt={c.name}
