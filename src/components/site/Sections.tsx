@@ -1,6 +1,7 @@
 import { animate, motion, useInView, useReducedMotion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ChevronRight, Menu, X } from "lucide-react";
+import { ArrowUp, BarChart3, Check, ChevronRight, ClipboardCheck, FileCheck, Headset, Menu, PhoneCall, PhoneOutgoing, Repeat, ScanSearch, Send, X } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { CONTACT, experience, hero, partnership, services, standards, steps, team } from "@/content/site";
 import { Glyph, Reveal, SectionHead } from "./primitives";
 import { LineBoard } from "./LineBoard";
@@ -20,6 +21,47 @@ const LINKS = [
   { id: "standards", label: "Standards" },
   { id: "partnership", label: "Partnership" },
 ];
+
+const SERVICE_ICONS: LucideIcon[] = [PhoneCall, Repeat, ClipboardCheck, BarChart3];
+const STEP_ICONS: LucideIcon[] = [PhoneOutgoing, Headset, FileCheck, ScanSearch, Send, BarChart3];
+
+function initials(name: string) {
+  const parts = name.replace(/-/g, " ").split(/\s+/).filter(Boolean);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? parts[parts.length - 1]?.[0] ?? "" : "";
+  return (first + last).toUpperCase();
+}
+
+function SplitWords({ text, className }: { text: string; className?: string }) {
+  const reduce = useReducedMotion();
+  const words = text.split(" ");
+  if (reduce) return <span className={className}>{text}</span>;
+  return (
+    <span className={className} aria-label={text}>
+      {words.map((w, i) => (
+        <span key={`${w}-${i}`} aria-hidden="true" className="inline-block overflow-hidden pb-[0.12em] align-bottom">
+          <motion.span
+            className="inline-block"
+            initial={{ y: "110%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {w}
+          </motion.span>
+          {i < words.length - 1 ? "\u00A0" : ""}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function ScrollBar() {
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 28, mass: 0.2 });
+  if (reduce) return null;
+  return <motion.span style={{ scaleX }} className="pointer-events-none absolute -bottom-px left-0 h-[2px] w-full origin-left bg-black" aria-hidden="true" />;
+}
 
 function AnchorLink({ id, children, className }: { id: string; children: React.ReactNode; className?: string }) {
   return (
@@ -69,6 +111,7 @@ export function Nav() {
           </button>
         </div>
       </nav>
+      <ScrollBar />
       {open && (
         <div id="mobile-menu" className="absolute inset-x-0 top-full border-b bg-white shadow-[0_20px_40px_-24px_rgb(0_0_0/0.3)] md:hidden">
           <ul className="container-site py-2">
@@ -106,11 +149,13 @@ export function Hero() {
       )}
       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-transparent" aria-hidden="true" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/70 to-transparent" aria-hidden="true" />
+      <div className="grain absolute inset-0" aria-hidden="true" />
+      <div className="vignette absolute inset-0" aria-hidden="true" />
 
       <div className="container-site relative flex flex-1 items-center py-24">
-        <motion.div className="max-w-4xl" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.1 } } }}>
+        <motion.div className="max-w-5xl" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.1 } } }}>
           <motion.p variants={item} className="eyebrow text-white/70">{hero.eyebrow}</motion.p>
-          <motion.h1 variants={item} className="mt-6 text-[2.75rem] text-white md:text-7xl lg:text-[5.75rem]">{hero.title}</motion.h1>
+          <h1 className="mt-6 text-balance text-[2.75rem] text-white md:text-7xl lg:text-[5.75rem]"><SplitWords text={hero.title} /></h1>
           <motion.p variants={item} className="mt-7 max-w-xl text-lg leading-relaxed text-white/80">{hero.lede}</motion.p>
           <motion.div variants={item} className="mt-10 flex flex-wrap gap-3">
             <button onClick={() => scrollToId("process")} className="btn btn-light">
@@ -123,8 +168,21 @@ export function Hero() {
 
       <div className="container-site relative pb-8">
         <ul className="grid grid-cols-2 gap-x-6 gap-y-3 border-t border-white/10 pt-6 text-sm text-white/70 md:grid-cols-4">
-          {services.map((s) => <li key={s.title}>{s.title}</li>)}
+          {services.map((s, i) => (
+            <li key={s.title} className="flex items-baseline gap-3">
+              <span className="text-xs tabular-nums text-white/40">{String(i + 1).padStart(2, "0")}</span>
+              {s.title}
+            </li>
+          ))}
         </ul>
+        <button
+          type="button"
+          onClick={() => scrollToId("experience")}
+          className="scroll-cue absolute bottom-24 right-4 hidden items-center gap-3 text-xs uppercase tracking-[0.12em] text-white/60 transition-colors hover:text-white sm:flex sm:right-8"
+          aria-label="Scroll down"
+        >
+          Scroll <span className="scroll-cue-line" aria-hidden="true" />
+        </button>
       </div>
     </section>
   );
@@ -151,7 +209,7 @@ function CountUp({ to, suffix = "", className }: { to: number; suffix?: string; 
 
 export function Experience() {
   return (
-    <section aria-label="Team experience" className="border-b">
+    <section id="experience" aria-label="Team experience" className="scroll-mt-16 border-b">
       <div className="container-site grid gap-10 py-14 md:grid-cols-12 md:py-20">
         <Reveal className="md:col-span-5">
           <CountUp to={experience.years} suffix={experience.suffix} className="font-display text-7xl font-light tracking-[-0.03em] md:text-8xl" />
@@ -161,7 +219,7 @@ export function Experience() {
           <p className="eyebrow">{experience.intro}</p>
           <ul className="mt-5 grid grid-cols-2 border-l border-t sm:grid-cols-6">
             {experience.companies.map((c, i) => (
-              <li key={c.name} className={`flex h-28 items-center justify-center border-b border-r bg-white px-6 sm:h-32 ${i === experience.companies.length - 1 ? "col-span-2 sm:col-span-3" : i === experience.companies.length - 2 ? "sm:col-span-3" : "sm:col-span-2"}`}>
+              <li key={c.name} className={`flex h-28 items-center justify-center border-b border-r bg-white px-6 transition-colors duration-300 hover:bg-beige sm:h-32 ${i === experience.companies.length - 1 ? "col-span-2 sm:col-span-3" : i === experience.companies.length - 2 ? "sm:col-span-3" : "sm:col-span-2"}`}>
                 <img
                   src={c.logo}
                   alt={c.name}
@@ -195,13 +253,20 @@ export function Statement() {
 }
 
 export function ProductFrame() {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
+  const scale = useTransform(scrollYProgress, [0, 1], reduce ? [1, 1] : [0.94, 1]);
+  const radius = useTransform(scrollYProgress, [0, 1], reduce ? [4, 4] : [18, 4]);
   return (
     <section className="container-site pb-[100px] md:pb-[140px]">
-      <Reveal>
-        <div className="rounded-[4px] bg-black p-4 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.45)] sm:p-8 md:p-14">
-          <LineBoard />
-        </div>
-      </Reveal>
+      <motion.div
+        ref={ref}
+        style={{ scale, borderRadius: radius }}
+        className="bg-black p-4 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.45)] sm:p-8 md:p-14"
+      >
+        <LineBoard />
+      </motion.div>
     </section>
   );
 }
@@ -251,9 +316,14 @@ export function Services() {
         </div>
         <div className="mt-20 grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
           {services.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.05} className="border-b border-line py-8 sm:border-b-0 sm:pr-8 lg:border-l lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
-              <p className="eyebrow">{s.tag}</p>
-              <h3 className="mt-4 text-xl">{s.title}</h3>
+            <Reveal key={s.title} delay={i * 0.05} className="group border-b border-line py-8 transition-colors duration-300 hover:bg-white/60 sm:border-b-0 sm:px-6 lg:border-l lg:first:border-l-0">
+              {(() => { const Icon = SERVICE_ICONS[i % SERVICE_ICONS.length]!; return (
+                <span className="flex h-10 w-10 items-center justify-center rounded-[3px] border border-black/10 bg-white transition-colors duration-300 group-hover:border-black group-hover:bg-black group-hover:text-white">
+                  <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+                </span>
+              ); })()}
+              <p className="eyebrow mt-6">{s.tag}</p>
+              <h3 className="mt-3 text-xl">{s.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
             </Reveal>
           ))}
@@ -272,7 +342,14 @@ function Step({ i, title, body, progress }: { i: number; title: string; body: st
         {String(i + 1).padStart(2, "0")}
       </p>
       <div className="md:col-span-10">
-        <h3 className="text-2xl">{title}</h3>
+        <div className="flex items-center gap-3">
+          {(() => { const Icon = STEP_ICONS[i % STEP_ICONS.length]!; return (
+            <span className={`flex h-8 w-8 items-center justify-center rounded-[3px] border transition-colors duration-300 ${lit ? "border-black bg-black text-white" : "border-line text-muted-foreground"}`}>
+              <Icon className="h-4 w-4" aria-hidden="true" />
+            </span>
+          ); })()}
+          <h3 className="text-2xl">{title}</h3>
+        </div>
         <p className="mt-2 max-w-2xl text-muted-foreground">{body}</p>
       </div>
     </li>
@@ -307,7 +384,10 @@ export function TeamStandards() {
         <ul className="mt-14 grid border-t border-black/10 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05} className="border-b border-black/10 py-8 sm:pr-8 lg:border-b-0 lg:border-l lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
-              <li>
+              <li className="group">
+                <span className={`mb-6 flex h-14 w-14 items-center justify-center rounded-full border font-display text-lg font-medium tracking-wide transition-transform duration-300 group-hover:scale-105 ${i === 0 ? "border-black bg-black text-white" : "border-black/20 bg-white text-ink"}`} aria-hidden="true">
+                  {initials(m.name)}
+                </span>
                 <h3 className="text-2xl font-light sm:text-[1.6rem]">{m.name}</h3>
                 <p className="eyebrow mt-3">{m.role}</p>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{m.body}</p>
@@ -321,9 +401,14 @@ export function TeamStandards() {
         <ul className="mt-14 grid border-t border-black/10 md:grid-cols-3">
           {standards.map((s, i) => (
             <Reveal key={s.title} delay={(i % 3) * 0.05} className="border-b border-black/10 py-8 md:pr-8">
-              <li>
-                <h3 className="text-xl">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+              <li className="group">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-black/20 bg-white transition-colors duration-300 group-hover:border-black group-hover:bg-black group-hover:text-white">
+                    <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                  </span>
+                  <h3 className="text-xl">{s.title}</h3>
+                </div>
+                <p className="mt-2 pl-9 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
               </li>
             </Reveal>
           ))}
@@ -342,13 +427,16 @@ export function Partnership() {
     <section id="partnership" className="scroll-mt-16 bg-black text-white section-pad">
       <div className="container-site">
         <SectionHead dark eyebrow="Partnership" title="What we bring and what we need" intro="Terms are discussed directly, on a call or by email." />
-        <div className="mt-14 grid gap-12 md:grid-cols-2">
+        <div className="mt-14 grid gap-6 md:grid-cols-2">
           {cols.map((c, i) => (
-            <Reveal key={c.title} delay={i * 0.06}>
+            <Reveal key={c.title} delay={i * 0.06} className="rounded-[4px] border border-white/10 p-6 transition-colors duration-300 hover:border-white/25 sm:p-8">
               <h3 className="text-2xl text-white">{c.title}</h3>
               <ul className="mt-6 border-t border-white/10">
                 {c.items.map((t) => (
-                  <li key={t} className="border-b border-white/10 py-4 text-white/80">{t}</li>
+                  <li key={t} className="flex items-start gap-3 border-b border-white/10 py-4 text-white/80 last:border-b-0">
+                    <Check className="mt-1 h-4 w-4 shrink-0 text-white/50" aria-hidden="true" />
+                    {t}
+                  </li>
                 ))}
               </ul>
             </Reveal>
@@ -407,8 +495,14 @@ export function Footer() {
           </div>
         ))}
       </div>
-      <div className="container-site flex flex-wrap justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/50">
+      <div className="container-site overflow-hidden" aria-hidden="true">
+        <p className="select-none whitespace-nowrap font-display text-[15.5vw] font-medium leading-[0.8] tracking-[-0.04em] text-white/[0.05] md:text-[11vw]">HN Solutions</p>
+      </div>
+      <div className="container-site flex flex-wrap items-center justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/50">
         <span>HN Solutions · Based in Pakistan</span>
+        <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="inline-flex items-center gap-2 transition-colors hover:text-white">
+          Back to top <ArrowUp className="h-3.5 w-3.5" aria-hidden="true" />
+        </button>
         <span>© 2026 HN Solutions</span>
       </div>
     </footer>

@@ -64,6 +64,7 @@
     letter-spacing: -0.02em;
     line-height: 1.05;
   }
+  ::selection { background: var(--black); color: var(--white); }
   :focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 3px;
@@ -93,6 +94,8 @@
 }
 
 @utility btn {
+  & svg { transition: transform .2s ease; }
+  &:hover svg { transform: translateX(3px); }
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -136,6 +139,40 @@
 
 @utility lamp-pulse {
   animation: pulse-lamp 1.6s ease-in-out infinite;
+}
+
+@utility grain {
+  opacity: .07;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@utility vignette {
+  pointer-events: none;
+  background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 60%, rgb(0 0 0 / 0.4) 100%);
+}
+
+@utility scroll-cue-line {
+  display: inline-block;
+  height: 1px;
+  width: 48px;
+  background: rgb(255 255 255 / 0.35);
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: white;
+    transform: translateX(-100%);
+    animation: cue 2.2s ease-in-out infinite;
+  }
+}
+
+@keyframes cue {
+  0% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
 }
 
 @keyframes kenburns {
