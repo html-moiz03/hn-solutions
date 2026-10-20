@@ -193,7 +193,12 @@ function CountUp({ to, prefix = "", suffix = "", className }: { to: number; pref
   const ref = useRef<HTMLParagraphElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const reduce = useReducedMotion();
-  const [n, setN] = useState(0);
+  // Start at the real value so server-rendered HTML and no-JS visitors see the number, then
+  // rewind to 0 on the client (off-screen) so it can count up when scrolled into view.
+  const [n, setN] = useState(to);
+  useEffect(() => {
+    if (!reduce) setN(0);
+  }, [reduce]);
   useEffect(() => {
     if (!inView) return;
     if (reduce) { setN(to); return; }
