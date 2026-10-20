@@ -20,7 +20,7 @@ export const ticker = [
 export const hero = {
   eyebrow: "Outbound sales team · Based in Pakistan",
   title: "Outbound sales calls, checked before they reach you.",
-  lede: "HN Solutions is a four-person outbound sales team for US auto warranty campaigns. Three experienced closers work the phones. One operator runs the dialer, CRM and QA, so every sale is reviewed against its recording before it is submitted.",
+  lede: "HN Solutions is an outbound sales team for US auto warranty campaigns. Experienced fronters and closers work the phones, and an operations lead runs the dialer, CRM and QA, so every sale is reviewed against its recording before it is submitted.",
 };
 
 export const services = [
@@ -52,7 +52,7 @@ export const standards = [
   { title: "Calling rules followed", body: "DNC scrubbing and legal calling hours on every list." },
   { title: "Approved scripts only", body: "Closers say what your script says and nothing more." },
   { title: "Straight reporting", body: "Sales and chargebacks are reported as they are, every week." },
-  { title: "Start small, grow on results", body: "We begin with a small team and scale once the numbers hold." },
+  { title: "Scale on results", body: "We start with a focused campaign and scale once the numbers hold." },
 ];
 
 export const partnership = {
@@ -87,10 +87,10 @@ export const experience = {
 
 export const faq = [
   { q: "What does HN Solutions do?", a: "We are an outbound sales team based in Pakistan, working US auto warranty campaigns. Fronters make the calls, Closers close them, and an Operator runs the dialer, CRM and quality checks." },
-  { q: "Who makes the calls?", a: "Three partners with real floor experience in auto and home warranty sales. We are a small team by design, and we begin small and grow once the results hold." },
+  { q: "Who makes the calls?", a: "Experienced fronters and closers with real floor experience in auto and home warranty sales. We start with a focused campaign and scale once the results hold." },
   { q: "Are calls recorded and checked?", a: "Yes. Every sale call is recorded and scored against a checklist before it is submitted. Sales that fail go back for correction or a retention call and are not passed on." },
   { q: "How do you handle calling rules?", a: "Leads are scrubbed against DNC lists, the source of the leads is agreed with the campaign owner, and calls go out only inside legal calling hours." },
   { q: "What do you need from a partner?", a: "An auto warranty campaign with an approved script and product, a merchant account and payment gateway, clear terms on compliance and chargebacks, and a written agreement before we start." },
   { q: "What do you bring?", a: "A closing team ready to start, our own dialer, agents and workstations, recorded calls with QA on every sale, and weekly sales and chargeback reports." },
-  { q: "How do we get started?", a: "Get in touch and we will talk through your campaign. Terms are discussed directly, then we begin with a small team and scale on results." },
+  { q: "How do we get started?", a: "Get in touch and we will talk through your campaign. Terms are discussed directly, then we start with a focused campaign and scale on results." },
 ];

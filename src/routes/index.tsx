@@ -6,9 +6,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "HN Solutions | Outbound sales team for US auto warranty campaigns" },
-      { name: "description", content: "Four-person outbound sales team in Pakistan for US auto warranty campaigns. Every sale is QA-reviewed against its recording." },
+      { name: "description", content: "Outbound sales team in Pakistan for US auto warranty campaigns. Every sale is QA-reviewed against its recording." },
       { property: "og:title", content: "HN Solutions | Outbound sales calls, checked before they reach you" },
-      { property: "og:description", content: "A four-person outbound sales team for US auto warranty campaigns. Every sale is reviewed against its recording before it is submitted." },
+      { property: "og:description", content: "An outbound sales team for US auto warranty campaigns. Every sale is reviewed against its recording before it is submitted." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

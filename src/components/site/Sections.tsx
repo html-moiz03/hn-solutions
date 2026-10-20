@@ -246,7 +246,7 @@ export function Statement() {
       <Reveal>
         <p className="max-w-[800px] font-display text-3xl font-medium leading-[1.2] tracking-[-0.02em] sm:text-4xl md:text-[2.75rem]">
           Every sale is reviewed against its recording before it is submitted.{" "}
-          <span className="text-soft">Three experienced closers work the phones. One operator runs the dialer, CRM and QA.</span>
+          <span className="text-soft">Experienced fronters and closers work the phones. An operations lead runs the dialer, CRM and QA.</span>
         </p>
       </Reveal>
     </section>
@@ -381,7 +381,7 @@ export function TeamStandards() {
   return (
     <section className="bg-grey section-pad">
       <div id="team" className="container-site scroll-mt-16">
-        <SectionHead eyebrow="Team" title="Four partners, one line" intro="Three closers on the phones and one operator behind them. All four own the company." />
+        <SectionHead eyebrow="Team" title="The people on the line" intro="Fronters and closers on the phones, and an operator behind them running every check." />
         <ul className="mt-14 grid border-t border-black/10 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05} className="border-b border-black/10 py-8 sm:pr-8 lg:border-b-0 lg:border-l lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
