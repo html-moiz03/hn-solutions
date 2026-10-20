@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Original brand files (not used by the site)
+brand-assets/
+brands-assets/
