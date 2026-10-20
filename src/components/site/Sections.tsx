@@ -189,7 +189,7 @@ export function Hero() {
   );
 }
 
-function CountUp({ to, suffix = "", className }: { to: number; suffix?: string; className?: string }) {
+function CountUp({ to, prefix = "", suffix = "", className }: { to: number; prefix?: string; suffix?: string; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const reduce = useReducedMotion();
@@ -201,8 +201,9 @@ function CountUp({ to, suffix = "", className }: { to: number; suffix?: string; 
     return () => controls.stop();
   }, [inView, reduce, to]);
   return (
-    <p ref={ref} className={className} aria-label={`${to}${suffix}`}>
-      <span aria-hidden="true" className="inline-block min-w-[0.6em] tabular-nums">{n}</span>
+    <p ref={ref} className={className} aria-label={`${prefix}${to.toLocaleString("en-US")}${suffix}`}>
+      <span aria-hidden="true">{prefix}</span>
+      <span aria-hidden="true" className="inline-block min-w-[0.6em] tabular-nums">{n.toLocaleString("en-US")}</span>
       <span aria-hidden="true">{suffix}</span>
     </p>
   );
@@ -246,7 +247,11 @@ export function Metrics() {
       <ul className="container-site grid grid-cols-2 md:grid-cols-4">
         {metrics.map((m, i) => (
           <Reveal key={m.label} delay={i * 0.05} className="border-b px-6 py-10 [&:nth-child(2n+1)]:border-r [&:nth-child(2n+1)]:pl-0 md:border-b-0 md:border-r md:[&:nth-child(3)]:pl-6 md:[&:nth-child(1)]:!pl-0 md:last:border-r-0 [&:nth-last-child(-n+2)]:border-b-0">
-            <p className="font-display text-4xl font-medium tracking-[-0.03em] sm:text-5xl">{m.value}</p>
+            {m.to !== undefined ? (
+              <CountUp to={m.to} prefix={m.prefix ?? ""} suffix={m.suffix ?? ""} className="whitespace-nowrap font-display text-4xl font-medium tracking-[-0.03em] sm:text-5xl" />
+            ) : (
+              <p className="font-display text-4xl font-medium tracking-[-0.03em] sm:text-5xl">{m.text}</p>
+            )}
             <p className="mt-3 max-w-[16rem] text-sm text-muted-foreground">{m.label}</p>
           </Reveal>
         ))}
