@@ -140,10 +140,18 @@ export function Experience() {
         </Reveal>
         <Reveal delay={0.05} className="md:col-span-7">
           <p className="eyebrow">{experience.intro}</p>
-          <ul className="mt-5 grid grid-cols-2 border-t">
+          <ul className="mt-5 grid grid-cols-2 border-l border-t">
             {experience.companies.map((c) => (
-              <li key={c} className="border-b py-6 pr-4 font-display text-2xl font-medium tracking-[-0.02em] sm:text-3xl">
-                {c}
+              <li key={c.name} className="flex h-28 items-center justify-center border-b border-r bg-white px-6 sm:h-32">
+                <img
+                  src={c.logo}
+                  alt={c.name}
+                  width={c.w}
+                  height={c.h}
+                  loading="lazy"
+                  decoding="async"
+                  className={`w-auto max-w-full object-contain ${c.tall ? "max-h-20 sm:max-h-24" : "max-h-14 sm:max-h-16"}`}
+                />
               </li>
             ))}
           </ul>

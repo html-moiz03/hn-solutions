@@ -72,8 +72,13 @@ export const partnership = {
 
 export const experience = {
   years: "3+",
-  label: "years of auto warranty sales experience on our team",
-  intro: "Our team has worked auto warranty campaigns with:",
-  companies: ["Drive Smart", "Omega Care", "BeeCovered", "MotoAssure"],
-  note: "Past campaign experience of our team members. Company names are shown as text and do not imply endorsement or partnership.",
+  label: "years of auto and home warranty sales experience on our team",
+  intro: "Our team has worked auto and home warranty campaigns with:",
+  companies: [
+    { name: "Drive Smart", logo: "/logos/drive-smart.png", w: 220, h: 68, tall: false },
+    { name: "Omega Auto Care", logo: "/logos/omega-auto-care.png", w: 220, h: 66, tall: false },
+    { name: "BeeCovered", logo: "/logos/beecovered.png", w: 220, h: 79, tall: false },
+    { name: "MotoAssure", logo: "/logos/motoassure.png", w: 90, h: 85, tall: true },
+  ],
+  note: "Past campaign experience of our team members. Logos belong to their respective owners and do not imply endorsement or partnership.",
 };
