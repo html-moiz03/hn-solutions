@@ -3,7 +3,7 @@
  * Empty strings are hidden. If all are empty, a fallback sentence shows.
  * ===================================================================== */
 export const CONTACT = {
-  email: "",
+  email: "abdulmoizzaheer0997@gmail.com",
   phone: "",
   linkedin: "",
 };

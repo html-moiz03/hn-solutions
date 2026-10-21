@@ -564,6 +564,9 @@ export function Footer() {
         <div className="md:col-span-6">
           <Logo dark />
           <p className="mt-4 max-w-sm text-sm text-white/60">{hero.title}</p>
+          {CONTACT.email && (
+            <a href={`mailto:${CONTACT.email}`} className="mt-4 inline-block text-sm text-white/80 underline-offset-4 hover:text-white hover:underline">{CONTACT.email}</a>
+          )}
         </div>
         {cols.map((c) => (
           <div key={c.title} className="md:col-span-3">
