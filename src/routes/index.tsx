@@ -6,7 +6,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "HN Solutions | Outbound sales BPO for US auto and home warranty" },
-      { name: "description", content: "Outbound sales BPO in Pakistan for US auto and home warranty campaigns. Every sale is QA-reviewed against its recording." },
+      { name: "description", content: "Outbound sales BPO for US auto and home warranty campaigns. Every sale is QA-reviewed against its recording." },
       { property: "og:title", content: "HN Solutions | Outbound sales calls, checked before they reach you" },
       { property: "og:description", content: "An outbound sales BPO for US auto and home warranty campaigns. Every sale is reviewed against its recording before it is submitted." },
       { property: "og:type", content: "website" },

@@ -2,7 +2,7 @@ import { animate, motion, useInView, useReducedMotion, useScroll, useSpring, use
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp, AudioLines, BarChart3, Check, ChevronRight, ClipboardCheck, Database, FileCheck, Headset, Menu, Monitor, PhoneCall, PhoneOutgoing, Plus, Repeat, ScanSearch, Send, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { CONTACT, experience, faq, floor, metrics, hero, partnership, services, standards, steps, team } from "@/content/site";
+import { experience, faq, floor, metrics, hero, partnership, services, standards, steps, team } from "@/content/site";
 import { Glyph, Reveal, SectionHead } from "./primitives";
 import { LineBoard } from "./LineBoard";
 
@@ -25,13 +25,6 @@ const LINKS = [
 
 const SERVICE_ICONS: LucideIcon[] = [PhoneCall, Repeat, ClipboardCheck, BarChart3];
 const STEP_ICONS: LucideIcon[] = [PhoneOutgoing, Headset, FileCheck, ScanSearch, Send, BarChart3];
-
-function initials(name: string) {
-  const parts = name.replace(/-/g, " ").split(/\s+/).filter(Boolean);
-  const first = parts[0]?.[0] ?? "";
-  const last = parts.length > 1 ? parts[parts.length - 1]?.[0] ?? "" : "";
-  return (first + last).toUpperCase();
-}
 
 function SplitWords({ text, className }: { text: string; className?: string }) {
   const reduce = useReducedMotion();
@@ -99,7 +92,7 @@ export function Nav() {
           ))}
         </div>
         <div className="flex items-center justify-end gap-2">
-          <AnchorLink id="partnership" className="btn btn-dark h-9">Contact</AnchorLink>
+          <AnchorLink id="partnership" className="btn btn-dark h-9">Get started</AnchorLink>
           <button
             type="button"
             className="inline-flex h-9 w-9 items-center justify-center rounded-[3px] border md:hidden"
@@ -432,13 +425,13 @@ export function TeamStandards() {
   return (
     <section className="bg-grey section-pad">
       <div id="team" className="container-site scroll-mt-16">
-        <SectionHead eyebrow="Team" title="The people on the line" intro="Fronters and closers on the phones, and an operations desk behind them running every check." />
+        <SectionHead eyebrow="Team" title="The people on the line" intro="A full floor of fronters, closers, QA and retention officers working every campaign." />
         <ul className="mt-14 grid border-t border-black/10 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((m, i) => (
             <Reveal key={m.name} delay={i * 0.05} className="border-b border-black/10 py-8 sm:pr-8 lg:border-b-0 lg:border-l lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
               <li className="group">
                 <span className={`mb-6 flex h-14 w-14 items-center justify-center rounded-full border font-display text-lg font-medium tracking-wide transition-transform duration-300 group-hover:scale-105 ${i === 0 ? "border-black bg-black text-white" : "border-black/20 bg-white text-ink"}`} aria-hidden="true">
-                  {initials(m.name)}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="text-2xl font-light sm:text-[1.6rem]">{m.name}</h3>
                 <p className="eyebrow mt-3">{m.role}</p>
@@ -534,11 +527,6 @@ export function Partnership() {
 }
 
 export function Closing() {
-  const rows = [
-    { label: "Email", href: CONTACT.email && `mailto:${CONTACT.email}` },
-    { label: "Phone", href: CONTACT.phone && `tel:${CONTACT.phone}` },
-    { label: "LinkedIn", href: CONTACT.linkedin },
-  ].filter((r) => r.href.trim());
   return (
     <section className="border-t border-white/10 bg-black text-white">
       <Reveal className="container-site flex flex-col gap-8 py-[100px] md:flex-row md:items-end md:justify-between md:py-[120px]">
@@ -546,7 +534,6 @@ export function Closing() {
         <div className="flex flex-wrap gap-3">
           <button onClick={() => scrollToId("partnership")} className="btn btn-light">Start a campaign <ChevronRight className="h-4 w-4" /></button>
           <button onClick={() => scrollToId("services")} className="btn btn-ghost-dark">Our services</button>
-          {rows.map((r) => <a key={r.label} href={r.href} className="btn btn-ghost-dark">{r.label}</a>)}
         </div>
       </Reveal>
     </section>
@@ -564,9 +551,6 @@ export function Footer() {
         <div className="md:col-span-6">
           <Logo dark />
           <p className="mt-4 max-w-sm text-sm text-white/60">{hero.title}</p>
-          {CONTACT.email && (
-            <a href={`mailto:${CONTACT.email}`} className="mt-4 inline-block text-sm text-white/80 underline-offset-4 hover:text-white hover:underline">{CONTACT.email}</a>
-          )}
         </div>
         {cols.map((c) => (
           <div key={c.title} className="md:col-span-3">
@@ -583,7 +567,7 @@ export function Footer() {
         <p className="select-none whitespace-nowrap font-display text-[15.5vw] font-medium leading-[0.8] tracking-[-0.04em] text-white/[0.05] md:text-[11vw]">HN Solutions</p>
       </div>
       <div className="container-site flex flex-wrap items-center justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/50">
-        <span>HN Solutions · Based in Pakistan</span>
+        <span>HN Solutions · Outbound sales BPO</span>
         <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="inline-flex items-center gap-2 transition-colors hover:text-white">
           Back to top <ArrowUp className="h-3.5 w-3.5" aria-hidden="true" />
         </button>
