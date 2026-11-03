@@ -61,7 +61,7 @@ export const partnership = {
 };
 
 export const metrics: { to?: number; prefix?: string; suffix?: string; text?: string; label: string }[] = [
-  { to: 700, suffix: "+", label: "Sales closed yearly" },
+  { to: 700, suffix: "+", label: "Sales closed yearly by our team" },
   { to: 100, suffix: "%", label: "of sale calls recorded" },
   { to: 100, suffix: "%", label: "of sales QA-reviewed before submission" },
   { text: "Weekly", label: "sales and chargeback reporting" },
