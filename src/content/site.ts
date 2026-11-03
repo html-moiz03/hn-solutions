@@ -1,13 +1,3 @@
-/* =====================================================================
- * CONTACT CONFIG — fill in any of these to show them on the page.
- * Empty strings are hidden. If all are empty, a fallback sentence shows.
- * ===================================================================== */
-export const CONTACT = {
-  email: "",
-  phone: "",
-  linkedin: "",
-};
-
 export const ticker = [
   "Outbound sales",
   "Retention",
@@ -18,7 +8,7 @@ export const ticker = [
 ];
 
 export const hero = {
-  eyebrow: "Outbound sales BPO · Based in Pakistan",
+  eyebrow: "Outbound sales BPO",
   title: "Outbound sales calls, checked before they reach you.",
   lede: "HN Solutions is an outbound call center for US auto and home warranty programs. Experienced fronters and closers work the phones, and our operations desk runs the dialer, CRM and QA, so every sale is reviewed against its recording before it reaches you.",
 };
@@ -40,10 +30,10 @@ export const steps = [
 ];
 
 export const team = [
-  { name: "Malik AbdulMoiz Zaheer", role: "Partner · Operations", body: "Runs the dialer, CRM, merchant setup, sales records and call QA." },
-  { name: "Zain-Ul-Abideen", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
-  { name: "Mirza Nasar Hussain", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
-  { name: "Abdullah Arshad", role: "Partner · Closer", body: "Outbound sales calls and customer retention." },
+  { name: "Fronters", role: "Outbound calling", body: "Make the first-line calls, qualify the customer and hand warm transfers to closers." },
+  { name: "Closers", role: "Sales", body: "Present the approved offer, answer questions and close the sale on a recorded call." },
+  { name: "QA", role: "Quality assurance", body: "Score every recorded sale against a checklist before it is submitted." },
+  { name: "Retention Officers", role: "Retention", body: "Save sales that fail review or are at risk of cancelling before they become chargebacks." },
 ];
 
 export const standards = [
@@ -71,7 +61,7 @@ export const partnership = {
 };
 
 export const metrics: { to?: number; prefix?: string; suffix?: string; text?: string; label: string }[] = [
-  { to: 700, suffix: "+", label: "Sales closed yearly" },
+  { to: 700, suffix: "+", label: "Sales closed yearly by our team" },
   { to: 100, suffix: "%", label: "of sale calls recorded" },
   { to: 100, suffix: "%", label: "of sales QA-reviewed before submission" },
   { text: "Weekly", label: "sales and chargeback reporting" },
@@ -102,7 +92,7 @@ export const experience = {
 };
 
 export const faq = [
-  { q: "What does HN Solutions do?", a: "We are an outbound call center (BPO) based in Pakistan, running US auto and home warranty campaigns. Fronters make the calls, Closers close them, and an Operator runs the dialer, CRM and quality checks." },
+  { q: "What does HN Solutions do?", a: "We are an outbound call center (BPO) running US auto and home warranty campaigns. Fronters make the calls, Closers close them, and an Operator runs the dialer, CRM and quality checks." },
   { q: "Who makes the calls?", a: "Experienced fronters and closers with real floor experience in auto and home warranty sales. We start with a focused campaign and scale once the results hold." },
   { q: "Are calls recorded and checked?", a: "Yes. Every sale call is recorded and scored against a checklist before it is submitted. Sales that fail go back for correction or a retention call and are not passed on." },
   { q: "How do you handle calling rules?", a: "Leads are scrubbed against DNC lists, the source of the leads is agreed with the campaign owner, and calls go out only inside legal calling hours." },
